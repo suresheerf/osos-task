@@ -10,4 +10,6 @@
 app is hosted at [osos-task](https://osos-task.herokuapp.com/)
 and api documentation is at [documentation](https://documenter.getpostman.com/view/16750472/UVRAJ6pd)
 
-#### to run develoopment server run `npm run dev`.
+#### to run development server run
+
+`npm run dev`
