@@ -23,7 +23,9 @@ mongoose
     console.log('unable to connect to database');
     console.log('ERROR:', err);
   });
-
+app.get('/', (req, res) => {
+  res.send('hello,from the server');
+});
 app.use('/api', restaurentRouter);
 
 app.listen(port, () => console.log(`app listening on port ${port}!`));
