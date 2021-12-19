@@ -1,12 +1,12 @@
-const Restaurent = require('../models/restaurent.model');
+const Restaurant = require('../models/restaurant.model');
 
 const create = async (req, res) => {
   try {
-    const restaurent = await Restaurent.create(req.body);
+    const restaurant = await Restaurant.create(req.body);
 
     res.status(201).json({
       status: 'success',
-      restaurent
+      restaurant
     });
   } catch (err) {
     console.log('ERROR:', err);
@@ -19,11 +19,11 @@ const create = async (req, res) => {
 
 const read = async (req, res) => {
   try {
-    const restaurent = await Restaurent.findById(req.query.id);
+    const restaurant = await Restaurant.find(req.query);
 
     res.status(200).json({
       status: 'success',
-      restaurent
+      restaurant
     });
   } catch (err) {
     console.log('ERROR:', err);
@@ -36,17 +36,20 @@ const read = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const restaurent = await Restaurent.findByIdAndUpdate(
-      req.query.id,
-      req.body,
-      {
-        new: true
-      }
-    );
+    const { name, description, location, ratings } = req.body;
+    const restaurant = await Restaurant.findById(req.query.id);
 
+    restaurant.name = name || restaurant.name;
+    restaurant.description = description || restaurant.description;
+    restaurant.location = location || restaurant.location;
+
+    if (ratings) {
+      restaurant.ratings = [restaurant.ratings, ...ratings];
+    }
+    await restaurant.save();
     res.status(200).json({
       status: 'success',
-      restaurent
+      restaurant
     });
   } catch (err) {
     console.log('ERROR:', err);
@@ -58,7 +61,7 @@ const update = async (req, res) => {
 };
 const remove = async (req, res) => {
   try {
-    const restaurent = await Restaurent.findByIdAndDelete(req.query.id);
+    const restaurant = await Restaurant.findByIdAndDelete(req.query.id);
 
     res.status(204).end();
   } catch (err) {
@@ -96,9 +99,9 @@ const search = async (req, res) => {
         }
       }
     ];
-    const restaurent = await Restaurent.aggregate(pipeline);
+    const restaurant = await Restaurant.aggregate(pipeline);
 
-    res.status(200).send(restaurent);
+    res.status(200).send(restaurant);
   } catch (err) {
     console.log('ERROR:', err);
     res.status(500).json({

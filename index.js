@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-const restaurentRouter = require('./routes/restaurent.router');
+const restaurantRouter = require('./routes/restaurant.router');
 
 require('dotenv').config();
 
@@ -26,6 +26,6 @@ mongoose
 app.get('/', (req, res) => {
   res.send('hello,from the server');
 });
-app.use('/api', restaurentRouter);
+app.use('/api', restaurantRouter);
 
 app.listen(port, () => console.log(`app listening on port ${port}!`));
